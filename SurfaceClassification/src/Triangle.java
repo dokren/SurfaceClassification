@@ -1,5 +1,3 @@
-
-
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -165,10 +163,5 @@ public class Triangle
 	public String toString()
 	{
 		return "Trikotnik: (" + a + ", " + b + ", " + c + ")";
-	}
-
-	public static enum Orientation
-	{
-		CLOCKWISE, COUNER_CLOCKWISE, COLINEAR
 	}
 }

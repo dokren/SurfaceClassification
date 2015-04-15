@@ -1,5 +1,3 @@
-
-
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -24,9 +22,13 @@ public class SurfaceClassification
 
 	private static void classifySurface(String fileName)
 	{
+		// TODO DOMEN: preveri, da ta triangulacija sploh predstavlja ploskev
+
 		boolean orientable = triangulation.isOrientable();
-		// TODO poišči še eulerjevo karakteristiko in glede na ta dva podatka
-		// klasificiraj ploskev
+		// TODO ROK: poišči še eulerjevo karakteristiko in glede na ta dva
+		// podatka klasificiraj ploskev
+
+		// TODO DARKO: poišči robne komponente
 	}
 
 	private static void parseData(String fileName)
