@@ -31,6 +31,12 @@ public class SurfaceClassification
 		// TODO DARKO: poišči robne komponente
 
 		System.out.println("Orientation: " + orientable);
+
+		// podvojeni trikotniki v XSurfaceSpaceStation.txt:
+		// 6368 6367 6366
+		// 6373 6374 6379
+		// 6557 6546 6545
+		// 6552 6551 6550
 	}
 
 	private static void parseData(String fileName)
@@ -41,7 +47,12 @@ public class SurfaceClassification
 			File file = new File(fileName);
 			Files.lines(file.toPath()).forEach(str ->
 			{
-				String[] split = str.trim().split(" ");
+				String trimmedString = str.trim();
+				if (trimmedString.length() <= 0)
+				{
+					return;
+				}
+				String[] split = trimmedString.split(" ");
 				if (split.length == 3)
 				{
 					int a = Integer.parseInt(split[0]);
