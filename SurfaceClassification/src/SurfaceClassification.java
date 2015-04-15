@@ -12,7 +12,7 @@ public class SurfaceClassification
 		for (File file : listFiles)
 		{
 			String fileName = file.getName();
-			if (fileName.startsWith("projekt1") && fileName.endsWith(".txt"))
+			if (fileName.endsWith(".txt"))
 			{
 				parseData(fileName);
 				classifySurface(fileName);
@@ -29,6 +29,8 @@ public class SurfaceClassification
 		// podatka klasificiraj ploskev
 
 		// TODO DARKO: poišči robne komponente
+
+		System.out.println("Orientation: " + orientable);
 	}
 
 	private static void parseData(String fileName)
