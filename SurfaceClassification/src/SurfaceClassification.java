@@ -22,25 +22,31 @@ public class SurfaceClassification
 
 	private static void classifySurface(String fileName)
 	{
-		// TODO DOMEN: preveri, da ta triangulacija sploh predstavlja ploskev
+		try
+		{
+			// TODO DOMEN: preveri, da ta triangulacija sploh predstavlja
+			// ploskev
 
-		boolean orientable = triangulation.isOrientable();
-		// TODO ROK: poišči še eulerjevo karakteristiko in glede na ta dva
-		// podatka klasificiraj ploskev
+			boolean orientable = triangulation.isOrientable();
+			// TODO DARKO: poišči robne komponente
 
-		// TODO DARKO: poišči robne komponente
+			// TODO ROK: poišči eulerjevo karakteristiko in klasificiraj ploskev
 
-		System.out.println("Orientation: " + orientable);
+			System.out.println("Orientation: " + orientable);
+		}
+		catch (SurfaceClassificationException e)
+		{
+			System.out.println(e.getMessage());
+		}
+	}
 
+	private static void parseData(String fileName)
+	{
 		// podvojeni trikotniki v XSurfaceSpaceStation.txt:
 		// 6368 6367 6366
 		// 6373 6374 6379
 		// 6557 6546 6545
 		// 6552 6551 6550
-	}
-
-	private static void parseData(String fileName)
-	{
 		triangulation = new Triangulation();
 		try
 		{

@@ -44,7 +44,7 @@ public class Triangulation
 				}
 				if (intersection.size() == 3)
 				{
-					throw new RuntimeException("Podana sta dva identična trikotnika: " + t1 + " in " + t2);
+					throw new SurfaceClassificationException("Podana sta dva identična trikotnika: " + t1 + " in " + t2);
 				}
 			}
 		}
