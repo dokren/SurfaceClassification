@@ -14,7 +14,6 @@ public class SurfaceClassification
 			String fileName = file.getName();
 			if (fileName.endsWith(".txt"))
 			{
-				parseData(fileName);
 				classifySurface(fileName);
 			}
 		}
@@ -24,6 +23,7 @@ public class SurfaceClassification
 	{
 		try
 		{
+			parseData(fileName);
 			// TODO DOMEN: preveri, da ta triangulacija sploh predstavlja
 			// ploskev
 
@@ -68,13 +68,13 @@ public class SurfaceClassification
 				}
 				else
 				{
-					throw new RuntimeException("Napačen format vrstice");
+					throw new SurfaceClassificationException("Napačen format vrstice: \n\t" + str + "");
 				}
 			});
 		}
 		catch (IOException | NumberFormatException e)
 		{
-			throw new RuntimeException(e);
+			throw new SurfaceClassificationException(e);
 		}
 	}
 }

@@ -6,4 +6,9 @@ public class SurfaceClassificationException extends RuntimeException
 	{
 		super(descr);
 	}
+
+	public SurfaceClassificationException(Exception e)
+	{
+		super(e);
+	}
 }
