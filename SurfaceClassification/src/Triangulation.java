@@ -112,6 +112,12 @@ public class Triangulation
 		}
 		return isOrientable;
 	}
+	
+	
+	public boolean isSurface() 
+	{
+		return true;
+	}
 
 	@Override
 	public String toString()
