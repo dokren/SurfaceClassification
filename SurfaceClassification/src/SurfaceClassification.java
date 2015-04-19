@@ -34,7 +34,7 @@ public class SurfaceClassification
 
 			System.out.println("Orientation: " + orientable);
 		}
-		catch (SurfaceClassificationException e)
+		catch (RuntimeException e)
 		{
 			System.out.println(e.getMessage());
 		}
@@ -68,13 +68,13 @@ public class SurfaceClassification
 				}
 				else
 				{
-					throw new SurfaceClassificationException("Napačen format vrstice: \n\t" + str + "");
+					throw new RuntimeException("Napačen format vrstice: \n\t" + str + "");
 				}
 			});
 		}
 		catch (IOException | NumberFormatException e)
 		{
-			throw new SurfaceClassificationException(e);
+			throw new RuntimeException(e);
 		}
 	}
 }
