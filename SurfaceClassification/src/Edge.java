@@ -1,4 +1,4 @@
-public class Edge
+public class Edge implements Comparable<Edge>
 {
 
 	private int a;
@@ -69,5 +69,16 @@ public class Edge
 	public String toString()
 	{
 		return "Edge " + a + "-" + b;
+	}
+
+	// for sorting by x (primarily) and y ascending
+	@Override
+	public int compareTo(Edge edge) {
+		if (this.a < edge.getA() || (this.a == edge.getA() && this.b < edge.getB())) {
+			return -1;
+		} else if (this.equals(edge)) {
+			return 0;
+		}
+		return 1;
 	}
 }

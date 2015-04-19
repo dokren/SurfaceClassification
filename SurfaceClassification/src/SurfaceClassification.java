@@ -8,11 +8,11 @@ public class SurfaceClassification
 
 	public static void main(String[] args)
 	{
-		File[] listFiles = new File(".").listFiles();
+		File[] listFiles = new File("SurfaceClassification" + File.separator + "data").listFiles();
 		for (File file : listFiles)
 		{
-			String fileName = file.getName();
-			if (fileName.endsWith(".txt"))
+			String fileName = file.getAbsolutePath();
+			if (fileName.endsWith("txt"))
 			{
 				classifySurface(fileName);
 			}
@@ -34,8 +34,8 @@ public class SurfaceClassification
 			boolean orientable = triangulation.isOrientable();
 
 			int eulerCharacteristic = triangulation.getEulerCharacteristic();
-			int numEdgeComponents = triangulation.getEdgeComponents();
-			int realEuler = eulerCharacteristic + numEdgeComponents;
+			int numberOfBoundaryComponents = triangulation.getNumberOfBoundaryComponents();
+			int realEuler = eulerCharacteristic + numberOfBoundaryComponents;
 
 			if (realEuler == 2)
 			{
@@ -45,12 +45,12 @@ public class SurfaceClassification
 			if (orientable)
 			{
 				int n = (2 - realEuler) / 2;
-				System.out.println("Podana ploskev je " + n + " torusov s/z " + numEdgeComponents + " luknjami");
+				System.out.println("Podana ploskev je " + n + " torusov s/z " + numberOfBoundaryComponents + " luknjami");
 			}
 			else
 			{
 				int n = 2 - realEuler;
-				System.out.println("Podana ploskev je " + n + " projektivnih ravnin s/z " + numEdgeComponents + " luknjami");
+				System.out.println("Podana ploskev je " + n + " projektivnih ravnin s/z " + numberOfBoundaryComponents + " luknjami");
 			}
 
 			System.out.println("Orientation: " + orientable);
