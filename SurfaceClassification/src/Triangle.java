@@ -11,10 +11,20 @@ public class Triangle
 	private Boolean orientation;
 	private List<Triangle> neighbours = new ArrayList<Triangle>(3);
 	private Triangle parent;
+	private boolean visited;
 
 	public Triangle(int a, int b, int c)
 	{
 		setPoints(a, b, c);
+		visited = false;
+	}
+
+	public boolean isVisited() {
+		return visited;
+	}
+
+	public void setVisited(boolean visited) {
+		this.visited = visited;
 	}
 
 	public void setPoints(int a, int b, int c)

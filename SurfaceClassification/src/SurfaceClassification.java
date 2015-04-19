@@ -24,6 +24,7 @@ public class SurfaceClassification
 		try
 		{
 			parseData(fileName);
+			triangulation.findNeighbours();
 			// TODO DOMEN: preveri, da ta triangulacija sploh predstavlja
 			// ploskev
 			if (!triangulation.isSurface())

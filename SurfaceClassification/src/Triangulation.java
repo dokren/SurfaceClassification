@@ -35,7 +35,7 @@ public class Triangulation
 		return points.size() - edges.size() + triangles.size();
 	}
 
-	private void findNeighbours()
+	public void findNeighbours()
 	{
 		for (int i = 0; i < triangles.size(); i++)
 		{
@@ -63,13 +63,13 @@ public class Triangulation
 
 	public boolean isOrientable()
 	{
-		findNeighbours();
 		boolean isOrientable = true;
 
 		Triangle firstTriangle = triangles.get(0);
 		firstTriangle.setOrientation(true);
 		firstTriangle.setParentToNeighbours();
 
+		queue.clear();
 		queue.addAll(firstTriangle.getNeighbours());
 
 		while (!queue.isEmpty())
@@ -138,9 +138,28 @@ public class Triangulation
 				 return false;
 			}
 		}
+		
+		queue.clear();
+		queue.add(triangles.get(0));
+		
+		int visited = 0;
+		while (!queue.isEmpty())
+		{ 
+			Triangle t = queue.pop();
+			if (t.isVisited()) {
+				continue;
+			}
+			t.setVisited(true);
+			visited++;
+			queue.addAll(t.getNeighbours());
+		}
+		
+		if (!(visited == triangles.size())) {
+			System.out.println("Triangulacija ima več komponent!");
+			return false;
+		}
+		
 		return true;
-		
-		
 	}
 
 	@Override
