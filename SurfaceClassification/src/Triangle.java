@@ -41,6 +41,12 @@ public class Triangle
 		}
 	}
 
+	public boolean containsEdge(Edge e) {
+		return 	(e.getA() == a && (e.getB() == b || e.getB() == c)) ||
+				(e.getA() == b && (e.getB() == a || e.getB() == c)) ||
+				(e.getA() == c && (e.getB() == a || e.getB() == b));
+	}
+	
 	public boolean isDataOrientationEqual(Triangle t)
 	{
 		// iskanje enakega zaporedja podniza

@@ -126,6 +126,18 @@ public class Triangulation
 
 	public boolean isSurface()
 	{
+		int neighbours = 0;
+		for (Edge edge : edges) {
+			neighbours = 0;
+			for (Triangle triangle : triangles) {
+				if (triangle.containsEdge(edge)) {
+					neighbours++;
+				}
+			}
+			if (!(neighbours == 1 || neighbours == 2)) {
+				 return false;
+			}
+		}
 		return true;
 	}
 
