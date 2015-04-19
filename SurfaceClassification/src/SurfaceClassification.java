@@ -26,6 +26,11 @@ public class SurfaceClassification
 			parseData(fileName);
 			// TODO DOMEN: preveri, da ta triangulacija sploh predstavlja
 			// ploskev
+			if (!triangulation.isSurface())
+			{
+				System.out.println("Podana triangulacija ne predstavlja ploskve");
+				return;
+			}
 
 			boolean orientable = triangulation.isOrientable();
 			// TODO DARKO: poišči robne komponente
