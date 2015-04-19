@@ -207,24 +207,24 @@ public class Triangulation
 		Collections.sort(edges, new ComparatorB());
 
 		Edge last = null;
-		Edge beforelast = null;
+		Edge penultimate = null;
 		boolean found = false;
 
 		int holes = 0;
 		for (int i = 1; i < edges.size(); i+=2) {
 			found = false;
 			last = edges.get(i);
-			if (beforelast != null && last.getB() == beforelast.getB()) {
+			if (penultimate != null && last.getB() == penultimate.getB()) {
 				// we hit end, try to get to first and second from these
-				found = goBack(edges, first, second, last, beforelast, false, false);
+				found = goBack(edges, first, second, last, penultimate, false, false);
 			}
 			if (i < edges.size() -1) {
-				beforelast = edges.get(i + 1);
+				penultimate = edges.get(i + 1);
 			}
 
-			if (beforelast != null && last.getB() == beforelast.getB()) {
+			if (penultimate != null && last.getB() == penultimate.getB()) {
 				// we hit end, try to get to first and second from these
-				found = goBack(edges, first, second, last, beforelast, false, false);
+				found = goBack(edges, first, second, last, penultimate, false, false);
 			}
 			if (found) {
 				holes++;
@@ -236,11 +236,11 @@ public class Triangulation
 		return holes + countHoles(edges.subList(edges.indexOf(second)+1, edges.size()));
 	}
 
-	public boolean goBack (List<Edge> edges, Edge first, Edge second, Edge last, Edge beforelast, boolean firstOk, boolean secondOk) {
-		if (last.getA() == first.getA() || beforelast.getA() == first.getA()) {
+	public boolean goBack (List<Edge> edges, Edge first, Edge second, Edge last, Edge penultimate, boolean firstOk, boolean secondOk) {
+		if (last.getA() == first.getA() || penultimate.getA() == first.getA()) {
 			firstOk = true;
 		}
-		if (last.getA() == second.getA() || beforelast.getA() == second.getA() ) {
+		if (last.getA() == second.getA() || penultimate.getA() == second.getA() ) {
 			secondOk = true;
 		}
 		// find previous
@@ -250,16 +250,16 @@ public class Triangulation
 			if (secondOk) {
 				last = find(edges, last.getA(), 'b');
 				if (last != null)
-					return goBack(edges, first, second, last, beforelast, firstOk, secondOk);
+					return goBack(edges, first, second, last, penultimate, firstOk, secondOk);
 			} else if (firstOk) {
-				beforelast = find(edges, beforelast.getA(), 'b');
-				if (beforelast != null)
-					return goBack(edges, first, second, last, beforelast, firstOk, secondOk);
+				penultimate = find(edges, penultimate.getA(), 'b');
+				if (penultimate != null)
+					return goBack(edges, first, second, last, penultimate, firstOk, secondOk);
 			} else {
 				last = find(edges, last.getA(), 'b');
-				beforelast = find(edges, beforelast.getA(), 'b');
-				if (last != null && beforelast != null)
-					return goBack(edges, first, second, last, beforelast, firstOk, secondOk);
+				penultimate = find(edges, penultimate.getA(), 'b');
+				if (last != null && penultimate != null)
+					return goBack(edges, first, second, last, penultimate, firstOk, secondOk);
 			}
 		}
 		return firstOk && secondOk;

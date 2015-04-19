@@ -12,7 +12,7 @@ public class SurfaceClassification
 		for (File file : listFiles)
 		{
 			String fileName = file.getAbsolutePath();
-			if (fileName.endsWith("txt"))
+			if (fileName.endsWith("Torus.txt"))
 			{
 				classifySurface(fileName);
 			}
@@ -21,6 +21,7 @@ public class SurfaceClassification
 
 	private static void classifySurface(String fileName)
 	{
+		System.out.println(fileName);
 		try
 		{
 			parseData(fileName);
@@ -65,7 +66,7 @@ public class SurfaceClassification
 
 	private static void parseData(String fileName)
 	{
-		// podvojeni trikotniki v XSurfaceSpaceStation.txt:
+		// podvojeni trikotniki v XSurfaceSpaceStation:
 		// 6368 6367 6366
 		// 6373 6374 6379
 		// 6557 6546 6545
