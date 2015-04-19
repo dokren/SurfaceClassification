@@ -232,8 +232,8 @@ public class Triangulation
 
 		}
 
-//		Collections.sort(edges);
-		return holes + countHoles(edges.subList(edges.indexOf(first), edges.indexOf(last)));
+		Collections.sort(edges);
+		return holes + countHoles(edges.subList(edges.indexOf(second)+1, edges.size()));
 	}
 
 	public boolean goBack (List<Edge> edges, Edge first, Edge second, Edge last, Edge beforelast, boolean firstOk, boolean secondOk) {
