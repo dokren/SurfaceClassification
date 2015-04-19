@@ -31,8 +31,10 @@ public class SurfaceClassification
 			// TODO DARKO: poišči robne komponente
 
 			// TODO ROK: poišči eulerjevo karakteristiko in klasificiraj ploskev
+			int eulerCharacteristic = triangulation.getEulerCharacteristic();
 
 			System.out.println("Orientation: " + orientable);
+			System.out.println("Euler Characteristic: " + eulerCharacteristic + "\n");
 		}
 		catch (RuntimeException e)
 		{
@@ -64,7 +66,7 @@ public class SurfaceClassification
 					int a = Integer.parseInt(split[0]);
 					int b = Integer.parseInt(split[1]);
 					int c = Integer.parseInt(split[2]);
-					triangulation.add(new Triangle(a, b, c));
+					triangulation.add(a, b, c);
 				}
 				else
 				{

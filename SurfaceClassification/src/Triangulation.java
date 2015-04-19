@@ -10,18 +10,29 @@ public class Triangulation
 	private List<Triangle> triangles = new ArrayList<Triangle>();
 	private LinkedList<Triangle> queue = new LinkedList<Triangle>();
 	private Set<Integer> points = new HashSet<Integer>();
+	private Set<Edge> edges = new HashSet<Edge>();
 
 	public List<Triangle> getTriangles()
 	{
 		return triangles;
 	}
 
-	public void add(Triangle t)
+	public void add(int a, int b, int c)
 	{
-		triangles.add(t);
-		points.add(t.getA());
-		points.add(t.getB());
-		points.add(t.getC());
+		triangles.add(new Triangle(a, b, c));
+
+		points.add(a);
+		points.add(b);
+		points.add(c);
+
+		edges.add(new Edge(a, b));
+		edges.add(new Edge(a, c));
+		edges.add(new Edge(b, c));
+	}
+
+	public int getEulerCharacteristic()
+	{
+		return points.size() - edges.size() + triangles.size();
 	}
 
 	private void findNeighbours()
