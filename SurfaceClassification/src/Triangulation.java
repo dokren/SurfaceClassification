@@ -55,7 +55,7 @@ public class Triangulation
 				}
 				if (intersection.size() == 3)
 				{
-					throw new RuntimeException("Podana sta dva identična trikotnika: " + t1 + " in " + t2);
+					throw new RuntimeException("Podana sta dva identiÄŤna trikotnika: " + t1 + " in " + t2);
 				}
 			}
 		}
@@ -78,7 +78,7 @@ public class Triangulation
 			Triangle parent = t.getParent();
 			boolean triangleAlreadyChecked = false;
 			boolean equalDataOrientation = t.isDataOrientationEqual(parent);
-			// trenutni trikotnik še nima nastavljene orientacije
+			// trenutni trikotnik Ĺˇe nima nastavljene orientacije
 			if (t.getOrientation() == null)
 			{
 				if (!equalDataOrientation)
@@ -93,7 +93,7 @@ public class Triangulation
 			else
 			{
 				// trenutni trikotnik ima nastavljeno orientacijo, preverimo
-				// če je pravilno
+				// ÄŤe je pravilno
 				boolean orientationCorrect;
 				if (!equalDataOrientation)
 				{
@@ -139,6 +139,8 @@ public class Triangulation
 			}
 		}
 		return true;
+		
+		
 	}
 
 	@Override
