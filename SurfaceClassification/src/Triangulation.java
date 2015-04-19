@@ -127,39 +127,51 @@ public class Triangulation
 	public boolean isSurface()
 	{
 		int neighbours = 0;
-		for (Edge edge : edges) {
+		for (Edge edge : edges)
+		{
 			neighbours = 0;
-			for (Triangle triangle : triangles) {
-				if (triangle.containsEdge(edge)) {
+			for (Triangle triangle : triangles)
+			{
+				if (triangle.containsEdge(edge))
+				{
 					neighbours++;
 				}
 			}
-			if (!(neighbours == 1 || neighbours == 2)) {
-				 return false;
+			if (!(neighbours == 1 || neighbours == 2))
+			{
+				return false;
 			}
 		}
-		
+
 		queue.clear();
 		queue.add(triangles.get(0));
-		
+
 		int visited = 0;
 		while (!queue.isEmpty())
-		{ 
+		{
 			Triangle t = queue.pop();
-			if (t.isVisited()) {
+			if (t.isVisited())
+			{
 				continue;
 			}
 			t.setVisited(true);
 			visited++;
 			queue.addAll(t.getNeighbours());
 		}
-		
-		if (!(visited == triangles.size())) {
+
+		if (!(visited == triangles.size()))
+		{
 			System.out.println("Triangulacija ima več komponent!");
 			return false;
 		}
-		
+
 		return true;
+	}
+
+	public int getEdgeComponents()
+	{
+		// TODO DARKO: poišči robne komponente
+		return 0;
 	}
 
 	@Override
@@ -172,5 +184,4 @@ public class Triangulation
 		}
 		return toString;
 	}
-
 }

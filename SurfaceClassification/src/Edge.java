@@ -1,20 +1,5 @@
 public class Edge
 {
-	public int getA() {
-		return a;
-	}
-
-	public void setA(int a) {
-		this.a = a;
-	}
-
-	public int getB() {
-		return b;
-	}
-
-	public void setB(int b) {
-		this.b = b;
-	}
 
 	private int a;
 	private int b;
@@ -31,6 +16,26 @@ public class Edge
 			this.b = a;
 			this.a = b;
 		}
+	}
+
+	public int getA()
+	{
+		return a;
+	}
+
+	public void setA(int a)
+	{
+		this.a = a;
+	}
+
+	public int getB()
+	{
+		return b;
+	}
+
+	public void setB(int b)
+	{
+		this.b = b;
 	}
 
 	@Override

@@ -25,22 +25,37 @@ public class SurfaceClassification
 		{
 			parseData(fileName);
 			triangulation.findNeighbours();
-			// TODO DOMEN: preveri, da ta triangulacija sploh predstavlja
-			// ploskev
 			if (!triangulation.isSurface())
 			{
-				System.out.println("Podana triangulacija ne predstavlja ploskve");
+				System.out.println("Podana triangulacija ne predstavlja ploskve\n");
 				return;
 			}
 
 			boolean orientable = triangulation.isOrientable();
-			// TODO DARKO: poišči robne komponente
 
-			// TODO ROK: poišči eulerjevo karakteristiko in klasificiraj ploskev
 			int eulerCharacteristic = triangulation.getEulerCharacteristic();
+			int numEdgeComponents = triangulation.getEdgeComponents();
+			int realEuler = eulerCharacteristic + numEdgeComponents;
+
+			if (realEuler == 2)
+			{
+				System.out.println("Podana ploskev je sfera.");
+				return;
+			}
+			if (orientable)
+			{
+				int n = (2 - realEuler) / 2;
+				System.out.println("Podana ploskev je " + n + " torusov s/z " + numEdgeComponents + " luknjami");
+			}
+			else
+			{
+				int n = 2 - realEuler;
+				System.out.println("Podana ploskev je " + n + " projektivnih ravnin s/z " + numEdgeComponents + " luknjami");
+			}
 
 			System.out.println("Orientation: " + orientable);
-			System.out.println("Euler Characteristic: " + eulerCharacteristic + "\n");
+			System.out.println("Euler Characteristic: " + eulerCharacteristic);
+			System.out.println("Real Euler Characteristic: " + realEuler + "\n");
 		}
 		catch (RuntimeException e)
 		{
