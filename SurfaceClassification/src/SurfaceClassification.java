@@ -12,7 +12,7 @@ public class SurfaceClassification
 		for (File file : listFiles)
 		{
 			String fileName = file.getAbsolutePath();
-			if (fileName.endsWith("Torus.txt"))
+			if (fileName.endsWith("txt"))
 			{
 				classifySurface(fileName);
 			}
@@ -21,7 +21,6 @@ public class SurfaceClassification
 
 	private static void classifySurface(String fileName)
 	{
-		System.out.println(fileName);
 		try
 		{
 			parseData(fileName);
