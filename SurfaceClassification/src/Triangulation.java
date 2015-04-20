@@ -186,154 +186,69 @@ public class Triangulation
 			}
 		}
 
-
 		Collections.sort(edg);
-		int h = countHoles(edg);
-		return h;
+
+		int c=0;
+		boolean isOneCycle = false;
+		for (int k =0; k < edg.size();k++) {
+			if (isOneCycle) {
+				break;
+			}
+			if ((k < edg.size() - 1) && edg.get(k).getA() == edg.get(k+1).getA()) {
+				int[] cc = count(edg, edg.get(k), null, 0, new ArrayList<>());
+				if (cc[1] == edg.size() - 1) {
+					isOneCycle=true;
+				}
+				c += cc[0];
+			}
+		}
+		return c;
 	}
 
-	public int countHoles (List<Edge> edges) {
-		if (edges.size() < 3) {
-			return 0;
+
+	public int[] count (List<Edge> edges, Edge ref, Edge next, int count, List<Edge> visited) {
+		if (next != null)
+			visited.add(next);
+		if (next != null && ref.getA() == next.getA()) {
+			return new int[] {1, count};
 		}
-		Edge first = edges.get(0);
-		Edge second = edges.get(1);
-		if (first.getA() != second.getA()) {
-			return 0;
-		}
-		// find last two the same
-		// sort by B point
-
-		Collections.sort(edges, new ComparatorB());
-
-		Edge last = null;
-		Edge penultimate = null;
-		boolean found = false;
-
-		int holes = 0;
-		for (int i = 1; i < edges.size(); i+=2) {
-			found = false;
-			last = edges.get(i);
-			if (penultimate != null && last.getB() == penultimate.getB()) {
-				// we hit end, try to get to first and second from these
-				found = goBack(edges, first, second, last, penultimate, false, false);
+		if (next != null) {
+			Edge tmp = next;
+			next = findNotEqual(edges, next.getB(), 'b', next, visited);
+			if (next == null) {
+				next = findNotEqual(edges, tmp.getB(), 'a', tmp, visited);
 			}
-			if (i < edges.size() -1) {
-				penultimate = edges.get(i + 1);
+			if (next == null) {
+				next = findNotEqual(edges, tmp.getA(), 'a', tmp, visited);
 			}
-
-			if (penultimate != null && last.getB() == penultimate.getB()) {
-				// we hit end, try to get to first and second from these
-				found = goBack(edges, first, second, last, penultimate, false, false);
+			if (next == null) {
+				next = findNotEqual(edges, tmp.getA(), 'b', tmp, visited);
 			}
-			if (found) {
-				holes++;
-			}
-
-		}
-
-		Collections.sort(edges);
-		return holes + countHoles(edges.subList(edges.indexOf(second)+1, edges.size()));
-	}
-
-	public boolean goBack (List<Edge> edges, Edge first, Edge second, Edge last, Edge penultimate, boolean firstOk, boolean secondOk) {
-		if (last.getA() == first.getA() || penultimate.getA() == first.getA()) {
-			firstOk = true;
-		}
-		if (last.getA() == second.getA() || penultimate.getA() == second.getA() ) {
-			secondOk = true;
-		}
-		// find previous
-		if (firstOk && secondOk) {
-			return true;
+			next = new Edge(next.getA(), next.getB());
 		} else {
-			if (secondOk) {
-				last = find(edges, last.getA(), 'b');
-				if (last != null)
-					return goBack(edges, first, second, last, penultimate, firstOk, secondOk);
-			} else if (firstOk) {
-				penultimate = find(edges, penultimate.getA(), 'b');
-				if (penultimate != null)
-					return goBack(edges, first, second, last, penultimate, firstOk, secondOk);
-			} else {
-				last = find(edges, last.getA(), 'b');
-				penultimate = find(edges, penultimate.getA(), 'b');
-				if (last != null && penultimate != null)
-					return goBack(edges, first, second, last, penultimate, firstOk, secondOk);
-			}
+			next = findNotEqual(edges, ref.getB(), 'a', ref, visited);
+			next = new Edge(next.getA(), next.getB());
 		}
-		return firstOk && secondOk;
+
+		return count(edges, ref, next, count+1, visited);
 	}
 
-	public Edge find (List<Edge> list, int v, char point) {
-
-
+	public Edge findNotEqual (List<Edge> list, int v, char point, Edge edge, List<Edge> visited) {
 		if (point == 'a') {
 			for (Edge e : list) {
-				if (e.getA() == v) {
-
-
+				if (e.getA() == v && !edge.equals(e) && !visited.contains(e)) {
 					return e;
 				}
 			}
 		} else {
 			for (Edge e : list) {
-				if (e.getB() == v) {
-
+				if (e.getB() == v && !edge.equals(e) && !visited.contains(e)) {
 					return e;
 				}
 			}
 		}
 
 		return null;
-	}
-
-	public int getNumberOfTriangles (List<Edge> edges) {
-		Edge[] e = new Edge[edges.size()];
-		List<Edge[]> potentialTriangles = new ArrayList<>();
-		potentialTriangles = kcomb(potentialTriangles, edges.toArray(e), 0, 3, new Edge[3]);
-
-		potentialTriangles = potentialTriangles.stream()
-				.filter(triangle -> isTriangle(triangle))
-				.collect(Collectors.toList());
-
-		return potentialTriangles.size();
-	}
-
-	/**
-	 * @param edges array of 3 Edges
-	 * @return true if they represent a triangle
-	 */
-	public boolean isTriangle(Edge[] edges) {
-		Arrays.sort(edges);
-		return (edges[0].getA() == edges[1].getA() && edges[0].getB() == edges[2].getA() &&
-					edges[1].getB() == edges[2].getB());
-	}
-
-	// http://stackoverflow.com/questions/2599499/k-combinations-of-a-set-of-integers-in-ascending-size-order
-	/**
-	 * @param potential
-	 * @param items
-	 * @param n
-	 * @param k
-	 * @param arr
-	 * @return 3-combinations of potential triangles
-	 */
-	public List<Edge[]> kcomb(List<Edge[]> potential, Edge[] items, int n, int k, Edge[] arr) {
-		if (k == 0) {
-			Edge[] e = new Edge[arr.length];
-			e[0] = new Edge(arr[0].getA(), arr[0].getB());
-			e[1] = new Edge(arr[1].getA(), arr[1].getB());
-			e[2] = new Edge(arr[2].getA(), arr[2].getB());
-			potential.add(e);
-			return potential;
-		} else {
-			for (int i = n; i <= items.length - k; i++) {
-				arr[arr.length - k] = items[i];
-				kcomb(potential, items, i + 1, k - 1, arr);
-			}
-			return potential;
-		}
 	}
 
 	/**
