@@ -8,7 +8,7 @@ public class SurfaceClassification
 
 	public static void main(String[] args)
 	{
-		File[] listFiles = new File("SurfaceClassification" + File.separator + "data").listFiles();
+		File[] listFiles = new File("./data").listFiles();
 		for (File file : listFiles)
 		{
 			String fileName = file.getAbsolutePath();
@@ -39,20 +39,20 @@ public class SurfaceClassification
 
 			if (realEuler == 2)
 			{
-				System.out.println("Podana ploskev je sfera.");
-				return;
-			}
-			if (orientable)
+				System.out.println("Podana ploskev je sfera s/z " + numberOfBoundaryComponents + " luknjami");
+			} else
 			{
-				int n = (2 - realEuler) / 2;
-				System.out.println("Podana ploskev je " + n + " torusov s/z " + numberOfBoundaryComponents + " luknjami");
+				if (orientable)
+				{
+					int n = (2 - realEuler) / 2;
+					System.out.println("Podana ploskev je " + n + " torusov s/z " + numberOfBoundaryComponents + " luknjami");
+				}
+				else
+				{
+					int n = 2 - realEuler;
+					System.out.println("Podana ploskev je " + n + " projektivnih ravnin s/z " + numberOfBoundaryComponents + " luknjami");
+				}
 			}
-			else
-			{
-				int n = 2 - realEuler;
-				System.out.println("Podana ploskev je " + n + " projektivnih ravnin s/z " + numberOfBoundaryComponents + " luknjami");
-			}
-
 			System.out.println("Orientation: " + orientable);
 			System.out.println("Euler Characteristic: " + eulerCharacteristic);
 			System.out.println("Real Euler Characteristic: " + realEuler + "\n");
