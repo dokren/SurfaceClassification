@@ -190,12 +190,14 @@ public class Triangulation
 
 		int c=0;
 		boolean isOneCycle = false;
+		List<Edge> visited = new ArrayList<>();
 		for (int k =0; k < edg.size();k++) {
 			if (isOneCycle) {
 				break;
 			}
 			if ((k < edg.size() - 1) && edg.get(k).getA() == edg.get(k+1).getA()) {
-				int[] cc = count(edg, edg.get(k), null, 0, new ArrayList<>());
+				visited.add(edg.get(k));
+				int[] cc = count(edg, edg.get(k), null, 0, visited);
 				if (cc[1] == edg.size() - 1) {
 					isOneCycle=true;
 				}
@@ -210,27 +212,57 @@ public class Triangulation
 		if (next != null)
 			visited.add(next);
 		if (next != null && ref.getA() == next.getA()) {
+			if (count < 2) {
+				return new int[] {0, count};
+			}
 			return new int[] {1, count};
 		}
 		if (next != null) {
-			Edge tmp = next;
-			next = findNotEqual(edges, next.getB(), 'b', next, visited);
-			if (next == null) {
-				next = findNotEqual(edges, tmp.getB(), 'a', tmp, visited);
-			}
-			if (next == null) {
-				next = findNotEqual(edges, tmp.getA(), 'a', tmp, visited);
-			}
-			if (next == null) {
-				next = findNotEqual(edges, tmp.getA(), 'b', tmp, visited);
-			}
-			next = new Edge(next.getA(), next.getB());
+			next = getNext(edges, next, visited);
 		} else {
-			next = findNotEqual(edges, ref.getB(), 'a', ref, visited);
-			next = new Edge(next.getA(), next.getB());
+			next = getNext1(ref, visited, edges);
 		}
 
 		return count(edges, ref, next, count+1, visited);
+	}
+
+	// next edge is not yet known
+	public Edge getNext1 (Edge ref, List<Edge> visited, List<Edge> edges) {
+		Edge next;
+		next = findNotEqual(edges, ref.getB(), 'b', ref, visited);
+		if (next == null) {
+			next = findNotEqual(edges, ref.getA(), 'b', ref, visited);
+		}
+		if (next == null) {
+			next = findNotEqual(edges, ref.getB(), 'a', ref, visited);
+		}
+
+		if (next == null) {
+			next = findNotEqual(edges, ref.getA(), 'a', ref, visited);
+		}
+
+		next = new Edge(next.getA(), next.getB());
+
+		return next;
+	}
+
+	// next edge is already known
+	public Edge getNext (List<Edge> edges, Edge next, List<Edge> visited) {
+		Edge tmp = next;
+		next = findNotEqual(edges, next.getB(), 'b', next, visited);
+		if (next == null) {
+			next = findNotEqual(edges, tmp.getA(), 'b', tmp, visited);
+		}
+		if (next == null) {
+			next = findNotEqual(edges, tmp.getB(), 'a', tmp, visited);
+		}
+		if (next == null) {
+			next = findNotEqual(edges, tmp.getA(), 'a', tmp, visited);
+		}
+
+		next = new Edge(next.getA(), next.getB());
+
+		return next;
 	}
 
 	public Edge findNotEqual (List<Edge> list, int v, char point, Edge edge, List<Edge> visited) {
