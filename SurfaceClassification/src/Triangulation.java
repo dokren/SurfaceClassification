@@ -1,5 +1,11 @@
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
 
 public class Triangulation
 {
@@ -51,7 +57,7 @@ public class Triangulation
 				}
 				if (intersection.size() == 3)
 				{
-					throw new RuntimeException("Podana sta dva identiÄŤna trikotnika: " + t1 + " in " + t2);
+					throw new RuntimeException("Podana sta dva identična trikotnika: " + t1 + " in " + t2);
 				}
 			}
 		}
@@ -164,42 +170,50 @@ public class Triangulation
 		return true;
 	}
 
-
-	public int getNumberOfBoundaryComponents() {
+	public int getNumberOfBoundaryComponents()
+	{
 		List<Edge> edgeList = getAllEdges();
 		List<Edge> edg = new ArrayList<>();
 		List<Edge> repeated = new ArrayList<>();
 		int size = edgeList.size();
 		boolean isUnique;
 
-		for (int i = 0; i < size; i++) {
+		for (int i = 0; i < size; i++)
+		{
 			Edge currentEdge = edgeList.get(i);
 			isUnique = true;
-			for (int j = i + 1; j < size; j++) {
-				if (currentEdge.equals(edgeList.get(j))) {
+			for (int j = i + 1; j < size; j++)
+			{
+				if (currentEdge.equals(edgeList.get(j)))
+				{
 					isUnique = false;
 					repeated.add(currentEdge);
 				}
 			}
-			if (isUnique && !repeated.contains(currentEdge)) {
+			if (isUnique && !repeated.contains(currentEdge))
+			{
 				edg.add(currentEdge);
 			}
 		}
 
 		Collections.sort(edg);
 
-		int c=0;
+		int c = 0;
 		boolean isOneCycle = false;
 		List<Edge> visited = new ArrayList<>();
-		for (int k =0; k < edg.size();k++) {
-			if (isOneCycle) {
+		for (int k = 0; k < edg.size(); k++)
+		{
+			if (isOneCycle)
+			{
 				break;
 			}
-			if ((k < edg.size() - 1) && edg.get(k).getA() == edg.get(k+1).getA()) {
+			if ((k < edg.size() - 1) && edg.get(k).getA() == edg.get(k + 1).getA())
+			{
 				visited.add(edg.get(k));
 				int[] cc = count(edg, edg.get(k), null, 0, visited);
-				if (cc[1] == edg.size() - 1) {
-					isOneCycle=true;
+				if (cc[1] == edg.size() - 1)
+				{
+					isOneCycle = true;
 				}
 				c += cc[0];
 			}
@@ -207,37 +221,46 @@ public class Triangulation
 		return c;
 	}
 
-
-	public int[] count (List<Edge> edges, Edge ref, Edge next, int count, List<Edge> visited) {
+	public int[] count(List<Edge> edges, Edge ref, Edge next, int count, List<Edge> visited)
+	{
 		if (next != null)
 			visited.add(next);
-		if (next != null && ref.getA() == next.getA()) {
-			if (count < 2) {
-				return new int[] {0, count};
+		if (next != null && ref.getA() == next.getA())
+		{
+			if (count < 2)
+			{
+				return new int[] { 0, count };
 			}
-			return new int[] {1, count};
+			return new int[] { 1, count };
 		}
-		if (next != null) {
+		if (next != null)
+		{
 			next = getNext(edges, next, visited);
-		} else {
+		}
+		else
+		{
 			next = getNext1(ref, visited, edges);
 		}
 
-		return count(edges, ref, next, count+1, visited);
+		return count(edges, ref, next, count + 1, visited);
 	}
 
 	// next edge is not yet known
-	public Edge getNext1 (Edge ref, List<Edge> visited, List<Edge> edges) {
+	public Edge getNext1(Edge ref, List<Edge> visited, List<Edge> edges)
+	{
 		Edge next;
 		next = findNotEqual(edges, ref.getB(), 'b', ref, visited);
-		if (next == null) {
+		if (next == null)
+		{
 			next = findNotEqual(edges, ref.getA(), 'b', ref, visited);
 		}
-		if (next == null) {
+		if (next == null)
+		{
 			next = findNotEqual(edges, ref.getB(), 'a', ref, visited);
 		}
 
-		if (next == null) {
+		if (next == null)
+		{
 			next = findNotEqual(edges, ref.getA(), 'a', ref, visited);
 		}
 
@@ -247,16 +270,20 @@ public class Triangulation
 	}
 
 	// next edge is already known
-	public Edge getNext (List<Edge> edges, Edge next, List<Edge> visited) {
+	public Edge getNext(List<Edge> edges, Edge next, List<Edge> visited)
+	{
 		Edge tmp = next;
 		next = findNotEqual(edges, next.getB(), 'b', next, visited);
-		if (next == null) {
+		if (next == null)
+		{
 			next = findNotEqual(edges, tmp.getA(), 'b', tmp, visited);
 		}
-		if (next == null) {
+		if (next == null)
+		{
 			next = findNotEqual(edges, tmp.getB(), 'a', tmp, visited);
 		}
-		if (next == null) {
+		if (next == null)
+		{
 			next = findNotEqual(edges, tmp.getA(), 'a', tmp, visited);
 		}
 
@@ -265,16 +292,24 @@ public class Triangulation
 		return next;
 	}
 
-	public Edge findNotEqual (List<Edge> list, int v, char point, Edge edge, List<Edge> visited) {
-		if (point == 'a') {
-			for (Edge e : list) {
-				if (e.getA() == v && !edge.equals(e) && !visited.contains(e)) {
+	public Edge findNotEqual(List<Edge> list, int v, char point, Edge edge, List<Edge> visited)
+	{
+		if (point == 'a')
+		{
+			for (Edge e : list)
+			{
+				if (e.getA() == v && !edge.equals(e) && !visited.contains(e))
+				{
 					return e;
 				}
 			}
-		} else {
-			for (Edge e : list) {
-				if (e.getB() == v && !edge.equals(e) && !visited.contains(e)) {
+		}
+		else
+		{
+			for (Edge e : list)
+			{
+				if (e.getB() == v && !edge.equals(e) && !visited.contains(e))
+				{
 					return e;
 				}
 			}
@@ -286,9 +321,11 @@ public class Triangulation
 	/**
 	 * @return _all_ edges contained in the triangulation
 	 */
-	public List<Edge> getAllEdges() {
+	public List<Edge> getAllEdges()
+	{
 		List<Edge> edgeList = new ArrayList<>();
-		triangles.forEach(triangle -> {
+		triangles.forEach(triangle ->
+		{
 			edgeList.add(new Edge(triangle.getA(), triangle.getB()));
 			edgeList.add(new Edge(triangle.getA(), triangle.getC()));
 			edgeList.add(new Edge(triangle.getB(), triangle.getC()));
@@ -308,12 +345,17 @@ public class Triangulation
 		return toString;
 	}
 
-	class ComparatorB implements Comparator<Edge> {
+	class ComparatorB implements Comparator<Edge>
+	{
 		@Override
-		public int compare (Edge e1, Edge e2) {
-			if (e1.getB() < e2.getB()) {
+		public int compare(Edge e1, Edge e2)
+		{
+			if (e1.getB() < e2.getB())
+			{
 				return -1;
-			} else if (e1.getB() == e2.getB()) {
+			}
+			else if (e1.getB() == e2.getB())
+			{
 				return 0;
 			}
 			return 1;
