@@ -28,7 +28,7 @@ public class SurfaceClassification
 			triangulation.findNeighbours();
 			if (!triangulation.isSurface())
 			{
-				System.out.print("Podana triangulacija ne predstavlja ploskve\n\n");
+				System.out.print("\tPodana triangulacija ne predstavlja ploskve\n\n");
 				return;
 			}
 
