@@ -14,20 +14,21 @@ public class SurfaceClassification
 			String fileName = file.getAbsolutePath();
 			if (fileName.endsWith("txt"))
 			{
-				classifySurface(fileName);
+				classifySurface(fileName, file.getName());
 			}
 		}
 	}
 
-	private static void classifySurface(String fileName)
+	private static void classifySurface(String filePath, String fileName)
 	{
 		try
 		{
-			parseData(fileName);
+			parseData(filePath);
+			System.out.print("Klasifikacija triangulacije iz datoteke " + fileName + "\n\t");
 			triangulation.findNeighbours();
 			if (!triangulation.isSurface())
 			{
-				System.out.println("Podana triangulacija ne predstavlja ploskve\n");
+				System.out.print("\tPodana triangulacija ne predstavlja ploskve\n\n");
 				return;
 			}
 
@@ -39,23 +40,21 @@ public class SurfaceClassification
 
 			if (realEuler == 2)
 			{
-				System.out.println("Podana ploskev je sfera s/z " + numberOfBoundaryComponents + " luknjami");
-			} else
+				System.out.print("Podana ploskev je sfera s/z " + numberOfBoundaryComponents + " luknjami\n\n");
+			}
+			else
 			{
 				if (orientable)
 				{
 					int n = (2 - realEuler) / 2;
-					System.out.println("Podana ploskev je " + n + " torusov s/z " + numberOfBoundaryComponents + " luknjami");
+					System.out.print("Podana ploskev je " + n + " torusov s/z " + numberOfBoundaryComponents + " luknjami\n\n");
 				}
 				else
 				{
 					int n = 2 - realEuler;
-					System.out.println("Podana ploskev je " + n + " projektivnih ravnin s/z " + numberOfBoundaryComponents + " luknjami");
+					System.out.print("Podana ploskev je " + n + " projektivnih ravnin s/z " + numberOfBoundaryComponents + " luknjami\n\n");
 				}
 			}
-			System.out.println("Orientation: " + orientable);
-			System.out.println("Euler Characteristic: " + eulerCharacteristic);
-			System.out.println("Real Euler Characteristic: " + realEuler + "\n");
 		}
 		catch (RuntimeException e)
 		{
