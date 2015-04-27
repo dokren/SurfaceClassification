@@ -28,7 +28,7 @@
 \usepackage{amsmath} % Required for some math elements 
 \usepackage[utf8]{inputenc} % slovenski znaki
 \usepackage[slovene]{babel} % slovenski formati
-
+\usepackage[]{algorithm2e}
 \setlength\parindent{0pt} % Removes all indentation from paragraphs
 
 \renewcommand{\labelenumi}{\alph{enumi}.} % Make numbering in the enumerate environment by letter rather than number (e.g. section 6)
@@ -83,32 +83,28 @@ definicija
 %	SECTION 2
 %----------------------------------------------------------------------------------------
 
-\section{Experimental Data}
+\section{Vhodni podatki}
+Abstraktni simplicialni kompleksi, podani kot seznami trojic števil. Vsak element je celo število, ki predstavlja indeks oglišča, celotna trojica pa predstavlja trikotnik v kompleksu.
 
-\begin{tabular}{ll}
-Mass of empty crucible & \SI{7.28}{\gram}\\
-Mass of crucible and magnesium before heating & \SI{8.59}{\gram}\\
-Mass of crucible and magnesium oxide after heating & \SI{9.46}{\gram}\\
-Balance used & \#4\\
-Magnesium from sample bottle & \#1
-\end{tabular}
+Primer ...
 
 %----------------------------------------------------------------------------------------
 %	SECTION 3
 %----------------------------------------------------------------------------------------
 
-\section{Sample Calculation}
+\section{Rešitev}
+Program za klasifikacijo ploskev je sestavljen iz treh delov: prvi preveri, če vhodna triangulacija predstavlja ploskev, drugi del prešteje robne komponente, tretji pa jo klasificira.
+\subsection{Ali je triangulacija ploskev}
 
-\begin{tabular}{ll}
-Mass of magnesium metal & = \SI{8.59}{\gram} - \SI{7.28}{\gram}\\
-& = \SI{1.31}{\gram}\\
-Mass of magnesium oxide & = \SI{9.46}{\gram} - \SI{7.28}{\gram}\\
-& = \SI{2.18}{\gram}\\
-Mass of oxygen & = \SI{2.18}{\gram} - \SI{1.31}{\gram}\\
-& = \SI{0.87}{\gram}
-\end{tabular}
+\subsection{Število robnih komponent}
+Število robnih komponent oz. število lukenj smo poiskali s preprostim algoritmom, ki je v grobem sestavljen iz naslednjih korakov:
+\begin{enumerate}
+\item poišči robove, ki se v triangulaciji pojavijo le enkrat
+\item preštej cikle, ki jih sestavljajo dobljeni robovi
+\end{enumerate}
 
-Because of this reaction, the required ratio is the atomic weight of magnesium: \SI{16.00}{\gram} of oxygen as experimental mass of Mg: experimental mass of oxygen or $\frac{x}{1.31}=\frac{16}{0.87}$ from which, $M_{\ce{Mg}} = 16.00 \times \frac{1.31}{0.87} = 24.1 = \SI{24}{\gram\per\mole}$ (to two significant figures).
+\subsection{Klasifikacija}
+
 
 %----------------------------------------------------------------------------------------
 %	SECTION 4
