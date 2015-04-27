@@ -51,9 +51,6 @@
 
 \begin{center}
 \begin{tabular}{l r}
-Date Performed: & January 1, 2012 \\ % Date the experiment was performed
-Partners: & James Smith \\ % Partner names
-& Mary Smith \\
 Mentor: & as. dr. Gregor Jerše % Instructor/supervisor
 \end{tabular}
 \end{center}
@@ -63,6 +60,9 @@ Mentor: & as. dr. Gregor Jerše % Instructor/supervisor
 % Abstract text
 % \end{abstract}
 
+\newpage
+\tableofcontents
+\newpage
 %----------------------------------------------------------------------------------------
 %	SECTION 1
 %----------------------------------------------------------------------------------------
@@ -70,11 +70,11 @@ Mentor: & as. dr. Gregor Jerše % Instructor/supervisor
 \section{Cilj}
 Cilj projekta je bil ustvariti program za klasifikacijo ploskev z robovi.
 
-\subsection{Definitions}
-\label{definitions}
+\subsection{Definicije}
+\label{definicije}
 \begin{description}
 \item[Ploskev]
-Definicija
+Ploskev v matematiki pomeni dvorazsežno tvorbo v večrazsežnem prostoru. Tvorba mora biti kompaktna in povezana.
 \item[Robne komponente]
 definicija
 \end{description} 
@@ -85,9 +85,14 @@ definicija
 
 \section{Vhodni podatki}
 Abstraktni simplicialni kompleksi, podani kot seznami trojic števil. Vsak element je celo število, ki predstavlja indeks oglišča, celotna trojica pa predstavlja trikotnik v kompleksu.
-
-Primer ...
-
+\\\\
+Primer vhoda za disk:  \\
+-----------------  \\
+1 2 3 \\
+2 3 4 \\
+2 4 5 \\
+2 5 6 \\
+-----------------  \\
 %----------------------------------------------------------------------------------------
 %	SECTION 3
 %----------------------------------------------------------------------------------------
@@ -95,6 +100,11 @@ Primer ...
 \section{Rešitev}
 Program za klasifikacijo ploskev je sestavljen iz treh delov: prvi preveri, če vhodna triangulacija predstavlja ploskev, drugi del prešteje robne komponente, tretji pa jo klasificira.
 \subsection{Ali je triangulacija ploskev}
+Najprej bomo preverilo ali je podana triangulacija ploskev. V našem primeru se to prevede na preverjanje ali triangulacija predstavlja več komponent in koliko sosedov ima vsak rob. Oba algoritma sta precej preprosta. 
+
+Pri prvem vzamemo nek trikotnik in mu dodamo sosede, nato dodamo njihove sosede, ... Na koncu le pogledamo ali so v množici podanih trikotnikov ostali kakšni, ki jih s tem pregledovanjem nismo dosegli. Če obstajajo, imamo več komponent, česat ne moremo klasificirati.
+
+Pri drugem pa se sprehodimo po vseh robovih trikotnikov in pogledamo ali imajo za soseda natanko enega(je del robne komponente), ali dva(rob je v ploskvi) trikotnika. Če najdemo več sosedov, triangulacija ne predstavlja ploskve.
 
 \subsection{Število robnih komponent}
 Število robnih komponent oz. število lukenj smo poiskali s preprostim algoritmom, ki je v grobem sestavljen iz naslednjih korakov:
@@ -120,67 +130,42 @@ Opisan algoritem bi na triangulaciji, prikazani na sliki \ref{triangulacija}, v 
 %----------------------------------------------------------------------------------------
 
 \section{Rezultati}
-Klasifikacija triangulacije iz datoteke SyrfaceK.txt \\
+Algoritem smo pognali na podanih testnih primerih. Rezultati testov so naslednji:
+\begin{enumerate}
+\item Klasifikacija triangulacije iz datoteke SyrfaceK.txt \\
 	Podana ploskev je 2 projektivnih ravnin s/z 0 luknjami
-\\ \\
-Klasifikacija triangulacije iz datoteke space\_stationSurface.txt \\
-	Podana sta dva identična trikotnika: Trikotnik: (6366, 6367, 6368) in Trikotnik: (6368, 6367, 6366)
-\\ \\
-Klasifikacija triangulacije iz datoteke space\_stationSurface\_no\_duplicates.txt \\
+\item Klasifikacija triangulacije iz datoteke space\_stationSurface.txt \\
+	Podana sta dva identična trikotnika: Trikotnik: (6366, 6367, 6368) in Trikotnik: (6368, 6367, 6366). Podan vhod ni ploskev.
+\item Klasifikacija triangulacije iz datoteke space\_stationSurface\_no\_duplicates.txt \\
 	Triangulacija ima več komponent! \\
 	Podana triangulacija ne predstavlja ploskve
-\\ \\
-Klasifikacija triangulacije iz datoteke disc.txt \\
+\item Klasifikacija triangulacije iz datoteke disc.txt \\
 	Podana ploskev je sfera s/z 1 luknjami
-\\ \\
-Klasifikacija triangulacije iz datoteke SurfaceT.txt \\
+\item Klasifikacija triangulacije iz datoteke SurfaceT.txt \\
 	Podana ploskev je 1 torusov s/z 0 luknjami
-\\ \\
-Klasifikacija triangulacije iz datoteke SurfaceGJ1.txt \\
+\item Klasifikacija triangulacije iz datoteke SurfaceGJ1.txt \\
 	Podana ploskev je 1 torusov s/z 0 luknjami
-\\ \\
-Klasifikacija triangulacije iz datoteke SurfaceGJ2.txt
+\item Klasifikacija triangulacije iz datoteke SurfaceGJ2.txt
 	Podana ploskev je 2 projektivnih ravnin s/z 0 luknjami
-
+\end{enumerate}
 
 %----------------------------------------------------------------------------------------
 %	SECTION 5
 %----------------------------------------------------------------------------------------
 
-\section{Discussion of Experimental Uncertainty}
+\section{Zaključek}
 
 The accepted value (periodic table) is \SI{24.3}{\gram\per\mole} \cite{Smith:2012qr}. The percentage discrepancy between the accepted value and the result obtained here is 1.3\%. Because only a single measurement was made, it is not possible to calculate an estimated standard deviation.
 
 The most obvious source of experimental uncertainty is the limited precision of the balance. Other potential sources of experimental uncertainty are: the reaction might not be complete; if not enough time was allowed for total oxidation, less than complete oxidation of the magnesium might have, in part, reacted with nitrogen in the air (incorrect reaction); the magnesium oxide might have absorbed water from the air, and thus weigh ``too much." Because the result obtained is close to the accepted value it is possible that some of these experimental uncertainties have fortuitously cancelled one another.
 
 %----------------------------------------------------------------------------------------
-%	SECTION 6
-%----------------------------------------------------------------------------------------
-
-\section{Answers to Definitions}
-
-\begin{enumerate}
-\begin{item}
-The \emph{atomic weight of an element} is the relative weight of one of its atoms compared to C-12 with a weight of 12.0000000$\ldots$, hydrogen with a weight of 1.008, to oxygen with a weight of 16.00. Atomic weight is also the average weight of all the atoms of that element as they occur in nature.
-\end{item}
-\begin{item}
-The \emph{units of atomic weight} are two-fold, with an identical numerical value. They are g/mole of atoms (or just g/mol) or amu/atom.
-\end{item}
-\begin{item}
-\emph{Percentage discrepancy} between an accepted (literature) value and an experimental value is
-\begin{equation*}
-\frac{\mathrm{experimental\;result} - \mathrm{accepted\;result}}{\mathrm{accepted\;result}}
-\end{equation*}
-\end{item}
-\end{enumerate}
-
-%----------------------------------------------------------------------------------------
 %	BIBLIOGRAPHY
 %----------------------------------------------------------------------------------------
 
-%\bibliographystyle{apalike}
+\bibliographystyle{apalike}
 
-%\bibliography{sample}
+\bibliography{sample}
 
 %----------------------------------------------------------------------------------------
 
