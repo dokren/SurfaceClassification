@@ -102,6 +102,15 @@ Program za klasifikacijo ploskev je sestavljen iz treh delov: prvi preveri, če 
 \item poišči robove, ki se v triangulaciji pojavijo le enkrat
 \item preštej cikle, ki jih sestavljajo dobljeni robovi
 \end{enumerate}
+Opisan algoritem bi na triangulaciji, prikazani na sliki \ref{triangulacija}, v primeru odstranjenih trikotnikov \textit{(2, 6, 5)} in \textit{(6, 7, 9)} našel naslednje robove, ki se pojavijo samo enkrat: \textit{2 - 5}, \textit{2 - 6} in \textit{5 - 6}, ter \textit{6 - 7}, \textit{6 - 9} in \textit{6 - 9}, iz česar bi potem zaznal dva cikla, ki sta identična odstranjenima trikotnikoma.
+
+\begin{figure}
+\begin{center}
+\includegraphics[scale=0.35]{Triangulation.png}
+\caption{Primer triangulacije}
+\end{center}
+\label{triangulacija}
+\end{figure}
 
 \subsection{Klasifikacija}
 
@@ -110,16 +119,29 @@ Program za klasifikacijo ploskev je sestavljen iz treh delov: prvi preveri, če 
 %	SECTION 4
 %----------------------------------------------------------------------------------------
 
-\section{Results and Conclusions}
+\section{Rezultati}
+Klasifikacija triangulacije iz datoteke SyrfaceK.txt \\
+	Podana ploskev je 2 projektivnih ravnin s/z 0 luknjami
+\\ \\
+Klasifikacija triangulacije iz datoteke space\_stationSurface.txt \\
+	Podana sta dva identična trikotnika: Trikotnik: (6366, 6367, 6368) in Trikotnik: (6368, 6367, 6366)
+\\ \\
+Klasifikacija triangulacije iz datoteke space\_stationSurface\_no\_duplicates.txt \\
+	Triangulacija ima več komponent! \\
+	Podana triangulacija ne predstavlja ploskve
+\\ \\
+Klasifikacija triangulacije iz datoteke disc.txt \\
+	Podana ploskev je sfera s/z 1 luknjami
+\\ \\
+Klasifikacija triangulacije iz datoteke SurfaceT.txt \\
+	Podana ploskev je 1 torusov s/z 0 luknjami
+\\ \\
+Klasifikacija triangulacije iz datoteke SurfaceGJ1.txt \\
+	Podana ploskev je 1 torusov s/z 0 luknjami
+\\ \\
+Klasifikacija triangulacije iz datoteke SurfaceGJ2.txt
+	Podana ploskev je 2 projektivnih ravnin s/z 0 luknjami
 
-The atomic weight of magnesium is concluded to be \SI{24}{\gram\per\mol}, as determined by the stoichiometry of its chemical combination with oxygen. This result is in agreement with the accepted value.
-
-\begin{figure}[h]
-\begin{center}
-\includegraphics[width=0.65\textwidth]{placeholder} % Include the image placeholder.png
-\caption{Figure caption.}
-\end{center}
-\end{figure}
 
 %----------------------------------------------------------------------------------------
 %	SECTION 5
