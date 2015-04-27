@@ -29,6 +29,7 @@
 \usepackage[utf8]{inputenc} % slovenski znaki
 \usepackage[slovene]{babel} % slovenski formati
 \usepackage[]{algorithm2e}
+\usepackage{hyperref}
 \setlength\parindent{0pt} % Removes all indentation from paragraphs
 
 \renewcommand{\labelenumi}{\alph{enumi}.} % Make numbering in the enumerate environment by letter rather than number (e.g. section 6)
@@ -75,8 +76,8 @@ Cilj projekta je bil ustvariti program za klasifikacijo ploskev z robovi.
 \begin{description}
 \item[Ploskev]
 Ploskev v matematiki pomeni dvorazsežno tvorbo v večrazsežnem prostoru. Tvorba mora biti kompaktna in povezana.
-\item[Robne komponente]
-definicija
+\item[Robna komponenta]
+Komponenta, ki predstavlja luknjo v triangulaciji. Sestavljajo jo robovi, ki so rob natanko enega trikotnika.
 \end{description} 
  
 %----------------------------------------------------------------------------------------
@@ -100,11 +101,11 @@ Primer vhoda za disk:  \\
 \section{Rešitev}
 Program za klasifikacijo ploskev je sestavljen iz treh delov: prvi preveri, če vhodna triangulacija predstavlja ploskev, drugi del prešteje robne komponente, tretji pa jo klasificira.
 \subsection{Ali je triangulacija ploskev}
-Najprej bomo preverilo ali je podana triangulacija ploskev. V našem primeru se to prevede na preverjanje ali triangulacija predstavlja več komponent in koliko sosedov ima vsak rob. Oba algoritma sta precej preprosta. 
+Najprej bomo preverili ali podana triangulacija predstavlja ploskev. V našem primeru se to prevede na preverjanje ali triangulacija predstavlja več komponent in koliko sosedov ima vsak rob. Oba algoritma sta precej preprosta. 
 
-Pri prvem vzamemo nek trikotnik in mu dodamo sosede, nato dodamo njihove sosede, ... Na koncu le pogledamo ali so v množici podanih trikotnikov ostali kakšni, ki jih s tem pregledovanjem nismo dosegli. Če obstajajo, imamo več komponent, česat ne moremo klasificirati.
+Pri prvem vzamemo nek trikotnik in mu dodamo sosede, nato dodamo njihove sosede, itd. Na koncu le pogledamo ali so v množici podanih trikotnikov ostali kakšni, ki jih s tem pregledovanjem nismo dosegli. Če obstajajo, imamo več komponent, česar ne moremo klasificirati.
 
-Pri drugem pa se sprehodimo po vseh robovih trikotnikov in pogledamo ali imajo za soseda natanko enega(je del robne komponente), ali dva(rob je v ploskvi) trikotnika. Če najdemo več sosedov, triangulacija ne predstavlja ploskve.
+Pri drugem pa se sprehodimo po vseh robovih trikotnikov in pogledamo ali imajo za soseda natanko enega (je del robne komponente), ali dva (rob je v ploskvi) trikotnika. Če najdemo več sosedov, triangulacija ne predstavlja ploskve.
 
 \subsection{Število robnih komponent}
 Število robnih komponent oz. število lukenj smo poiskali s preprostim algoritmom, ki je v grobem sestavljen iz naslednjih korakov:
@@ -113,17 +114,40 @@ Pri drugem pa se sprehodimo po vseh robovih trikotnikov in pogledamo ali imajo z
 \item preštej cikle, ki jih sestavljajo dobljeni robovi
 \end{enumerate}
 Opisan algoritem bi na triangulaciji, prikazani na sliki \ref{triangulacija}, v primeru odstranjenih trikotnikov \textit{(2, 6, 5)} in \textit{(6, 7, 9)} našel naslednje robove, ki se pojavijo samo enkrat: \textit{2 - 5}, \textit{2 - 6} in \textit{5 - 6}, ter \textit{6 - 7}, \textit{6 - 9} in \textit{6 - 9}, iz česar bi potem zaznal dva cikla, ki sta identična odstranjenima trikotnikoma.
-
-\begin{figure}
+\begin{figure}[htb]
 \begin{center}
 \includegraphics[scale=0.35]{Triangulation.png}
 \caption{Primer triangulacije}
-\end{center}
 \label{triangulacija}
+\end{center}
 \end{figure}
 
 \subsection{Klasifikacija}
+Na koncu je prišla na vrsto še dejanska klasifikacija ploskve. Na vajah smo že pokazali kako se klasificira ploskve brez roba, in sicer lahko to naredimo na podlagi Eulerjeve karakteristike $\chi(T)$, kjer je $T$ triangulacija, in orientabilnosti triangulacije. Videli smo že, da se vse ploskve razdelijo na 3 različne razrede:
+\begin{enumerate}
+\item sfera - je orientabilna, $\chi(T)=2$ 
+\item $n$ torusov - je orientabilna, $\chi(T)=2-2n$
+\item $n$ projektivnih ravnin - ni orientabilna, $\chi(T)=2-n$
+\end{enumerate}
+Tu pa imamo opravka s ploskvami, ki mogoče vsebujejo kakšno robno komponento. Ideja za klasifikacijo takšnih ploskev pa je, da zapolnimo vse robne komponente in dobimo novo ploskev $T'$, ki pa ne vsebuje robov. Če vzamemo še orientacijo originalne triangulacije $T$ in Eulerjevo karakteristiko nove, $\chi(T')$, lahko torej dokončno klasificiramo ploskev, ki jo določa $T$.
 
+Ostane nam torej samo še premislek za koliko se spremeni Eulerjeva karakteristika, ko tako polnimo luknje v triangulaciji. Luknjo lahko zapolnimo na 2 preprosta načina. Prvi način je ta, da na sredini neke luknje naredimo novo oglišče in iz te točke napeljemo rob na vsako oglišče na robu luknje. Drug način pa je, da iz poljubne točke napeljemo rob do vsake še ne sosednje točke. Oba načina sta pokazana na sliki \ref{luknje} na primeru, ko ima rob 10 oglišč.
+
+\begin{figure}[htb]
+\begin{center}
+\includegraphics[scale=0.5]{luknje.pdf}
+\caption{Dva načina polnjena luknje}
+\label{luknje}
+\end{center}
+\end{figure}
+
+Poglejmo sedaj koliko smo "pokvarili" Eulerjevo karakteristiko. Recimo, da ima robna komponenta $m$ oglišč. Pri prvem načinu smo dodali 1 oglišče in za vsako oglišče robne komponente en rob, torej $m$ robov. S tem smo za vsak rob robne komponente (ki jih je enako kot oglišč, torej $m$) tudi dodali en trikotnik. Obstoječih simpleksov nismo kvarili in zato se Eulerjeva karakteristika glasi:
+$$\chi(T')=\chi(T) + 1 - m + m = \chi(T) + 1$$
+Pri drugem načinu pa dodamo vse diagonale iz neke točke kot robove. Teh je tako $m-3$, saj ne moremo napeljati diagonale z direktnimi sosedi (ta rob v $T$ namreč že obstaja) in tudi ne sam s sabo. Ker ima robna komponenta tudi $m$ robov, bomo dobili $m-2$ novih trikotnikov, saj samo z dvema robovoma (sosednima) ne moremo dobiti trikotnika. Novh točk nismo dodali in zato je Eulerjeva karakteristika enaka
+$$\chi(T')=\chi(T) + 0 - (m-3) + m-2 = \chi(T) + 3 - 2 = \chi(T) + 1.$$
+V obeh primerih smo pričakovano dobili enak rezultat, torej se $\chi(T)$ pri polnjenju ene luknje spremeni za 1.
+
+Zaključimo torej, da je dovolj če izračunamo $\chi(T)$ in tej številki dodamo število robnih komponent, da dobimo $\chi(T')$. Sedaj lahko popolnoma klasificiramo vse ploskve z robom in brez.
 
 %----------------------------------------------------------------------------------------
 %	SECTION 4
@@ -145,7 +169,7 @@ Algoritem smo pognali na podanih testnih primerih. Rezultati testov so naslednji
 	Podana ploskev je 1 torusov s/z 0 luknjami
 \item Klasifikacija triangulacije iz datoteke SurfaceGJ1.txt \\
 	Podana ploskev je 1 torusov s/z 0 luknjami
-\item Klasifikacija triangulacije iz datoteke SurfaceGJ2.txt
+\item Klasifikacija triangulacije iz datoteke SurfaceGJ2.txt \\
 	Podana ploskev je 2 projektivnih ravnin s/z 0 luknjami
 \end{enumerate}
 
@@ -154,20 +178,9 @@ Algoritem smo pognali na podanih testnih primerih. Rezultati testov so naslednji
 %----------------------------------------------------------------------------------------
 
 \section{Zaključek}
+S projektnim delom smo dosegli klasifikacijo ploskve z morebitnim robom. Seveda mora podan abstraktni simplicialni kompleks sploh predstavljati ploskev. Nato je treba poiskati le orientacijo ploskve in robne komponente. Za oboje se lahko uporabi preprosta algoritem (za orientacijo smo že spoznali na vajah), ostalo pa tudi ni težko implementirati. Luknje se da zapolniti tudi na drugačne načine, opisana pa sta dva najbolj intuitivna.
 
-The accepted value (periodic table) is \SI{24.3}{\gram\per\mole} \cite{Smith:2012qr}. The percentage discrepancy between the accepted value and the result obtained here is 1.3\%. Because only a single measurement was made, it is not possible to calculate an estimated standard deviation.
-
-The most obvious source of experimental uncertainty is the limited precision of the balance. Other potential sources of experimental uncertainty are: the reaction might not be complete; if not enough time was allowed for total oxidation, less than complete oxidation of the magnesium might have, in part, reacted with nitrogen in the air (incorrect reaction); the magnesium oxide might have absorbed water from the air, and thus weigh ``too much." Because the result obtained is close to the accepted value it is possible that some of these experimental uncertainties have fortuitously cancelled one another.
-
-%----------------------------------------------------------------------------------------
-%	BIBLIOGRAPHY
-%----------------------------------------------------------------------------------------
-
-\bibliographystyle{apalike}
-
-\bibliography{sample}
-
-%----------------------------------------------------------------------------------------
+Implementacija tega projekta je potekala v Javi verzije 8. Vsa koda vključno s testnimi primeri pa so dostopni tudi na GitHub-u:\\ \url{https://github.com/dokren/SurfaceClassification/}
 
 
 \end{document}
